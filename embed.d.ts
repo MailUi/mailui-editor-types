@@ -13,13 +13,9 @@ declare module "engine/config/callbacks" {
     };
 
     export function getCallback(type: string): CallbackFn;
-
     export function hasCallback(type: string): boolean;
-
     export function registerCallback(type: string, callback: CallbackFn | null | undefined): void;
-
     export function unregisterCallback(type: string): void;
-
     export function triggerCallback(type: string, ...args: [...any[], CallbackDoneFn]): void;
 
     export function onRegisterCallback(handler: {
@@ -166,7 +162,7 @@ declare module "state/types/index" {
     export type Device = 'desktop' | 'mobile' | 'tablet';
     export type Theme = 'light' | 'dark';
     export type Ui = 'none' | 'visual' | 'classic';
-    export type RootElementTypes = 'SECTION' | 'ROW' | 'COLUMN' | 'ELEMENT';
+    export type RootElementTypes = 'SECTION' | 'ROW' | 'COLUMN' | 'ELEMENT' | string;
     export type ElementTypes =
         'section'
         | 'row'
@@ -184,24 +180,12 @@ declare module "state/types/index" {
         | string;
 
     export interface MergeTag {
-        name: string;
+        label: string;
         value?: string;
-        sample?: string;
-        icon?: string;
-        mergeTags?: MergeTags;
-        rules?: {
-            [key: string]: {
-                name: string;
-                before: string;
-                after: string;
-                sample?: boolean | Array<Record<string, string>>;
-            };
-        };
+        margeTags?: MergeTags
     }
 
-    export interface MergeTags {
-        [name: string]: MergeTag;
-    }
+    export type MergeTags = MergeTag[]
 
     export type MergeTagsValues = Record<string, string | number | Record<string, boolean | Array<Record<string, string | number>>>>;
 
@@ -239,13 +223,13 @@ declare module "state/types/index" {
     export interface Element {
         id: string;
         _elType: RootElementTypes;
-        name: string;
+        name?: string;
         type: ElementTypes;
-        componentPath: string;
-        elements?: object[];
-        style: object;
-        media: object;
-        attr: object;
+        componentPath?: string;
+        elements?: ElementList;
+        style?: object;
+        media?: object;
+        attr?: object;
         wrapper?: object;
         innerWrapper?: object;
     }
@@ -253,17 +237,17 @@ declare module "state/types/index" {
     export type ElementList = Element[];
 
     export interface PageData {
-        style: any[];
-        heading: any[];
-        settings: object;
-        elements: ElementList;
+        style?: any[];
+        heading?: any[];
+        settings?: object;
+        elements?: ElementList;
     }
 
     export interface Page {
         id: string;
-        slug: string;
-        name?: string;
-        type?: 'INDEX' | string;
+        slug: string | null;
+        name?: string | null;
+        type?: 'INDEX' | string | null;
         data?: PageData;
     }
 
@@ -295,16 +279,16 @@ declare module "state/types/index" {
         }[];
     };
     export type AppearanceConfig = {
-        theme: Theme;
-        panels: {
-            tools: {
-                dock: 'left' | 'right'; // popup
-                collapsible: boolean;
-                compact: boolean
+        theme?: Theme;
+        panels?: {
+            tools?: {
+                dock?: 'left' | 'right'; // popup
+                collapsible?: boolean;
+                compact?: boolean
             };
         };
-        features: {
-            preview: boolean;
+        features?: {
+            preview?: boolean;
         };
     };
 
@@ -397,6 +381,10 @@ declare module "embed/Config" {
         onlyFooter?: boolean;
     }
 
+    export interface SaveDesignResult {
+
+    }
+
     export interface ExportHtmlResult {
         html: string;
         amp: {
@@ -461,11 +449,8 @@ declare module "embed/Config" {
         deviceScaleFactor?: number;
     }
 
-    export interface ExportPdfFromApiOptions extends BaseExportFromApiOptions {
-    }
-
-    export interface ExportZipFromApiOptions extends BaseExportFromApiOptions {
-    }
+    export interface ExportPdfFromApiOptions extends BaseExportFromApiOptions {}
+    export interface ExportZipFromApiOptions extends BaseExportFromApiOptions {}
 }
 declare module "engine/utils/findDeep" {
     export function findDeep<T = any>(item: Record<string, T> | Array<T> | T, eq: ((item: T) => boolean) | unknown, {_path, _visited}?: {
@@ -499,23 +484,14 @@ declare module "embed/Frame" {
         constructor(src: string);
 
         createIframe(src: string): HTMLIFrameElement;
-
         appendTo(el: Element): void;
-
         postMessage(action: string, message: Message): void;
-
         withMessage(action: string, message: Message | undefined, callback?: Function): void;
-
         _preprocessMessageFunctions(message: Message): Message;
-
         preprocessMessage(message: Message): Message;
-
         scheduleMessage(message: Message): void;
-
         flushMessages(): void;
-
         handleMessage({action, callbackId, doneId, result: _result, resultArgs: _resultArgs,}: MessageData): void;
-
         receiveMessage(event: any): void;
     }
 
@@ -539,7 +515,6 @@ declare module "engine/config/env" {
     };
 
     export function setIsTest(isTest: boolean): void;
-
     export function isTest(): boolean;
 
     global {
@@ -599,79 +574,43 @@ declare module "embed/Editor" {
         constructor(config?: Config);
 
         init(config?: Config): void;
-
         destroy(): void;
-
         loadEditor(config: Config): void;
-
         renderEditor(config: Config): void;
-
         initEditor(config: Config): void;
-
         registerColumns(cells: number[]): void;
-
         registerCallback(type: string, callback: Function): void;
-
         unregisterCallback(type: string): void;
-
         registerProvider(type: string, callback: Function): void;
-
         unregisterProvider(type: string): void;
-
         reloadProvider(type: string): void;
-
         addEventListener(type: string, callback: Function): void;
-
         removeEventListener(type: string): void;
-
         setDisplayMode(displayMode: DisplayMode): void;
-
         loadProject(projectId: number): void;
-
         loadUser(user: User): void;
-
         loadTemplate(templateId: number): void;
-
         loadStockTemplate(stockTemplateId: string): void;
-
         setMergeTags(mergeTags: MergeTags): void;
-
+        setDevice(device: string): void;
         setLocale(locale: Locale | null): void;
-
         setTextDirection(textDirection: TextDirection | null): void;
-
         setTranslations(translations: Translations): void;
-
         loadBlank(bodyValues?: object): void;
-
         loadDesign(design: JSONTemplate): void;
-
-        saveDesign(callback: Function, options?: SaveDesignOptions): void;
-
+        saveDesign(callback: (data: SaveDesignResult) => void, options?: SaveDesignOptions): void;
         exportHtml(callback: (data: ExportHtmlResult) => void, options?: ExportHtmlOptions): void;
-
         exportLiveHtml(callback: (data: ExportLiveHtmlResult) => void, options?: ExportLiveHtmlOptions): void;
-
         exportPlainText(callback: (data: ExportPlainTextResult) => void, options?: ExportPlainTextOptions): void;
-
         exportImage(callback: (data: ExportFromApiResult) => void, options?: ExportImageFromApiOptions): void;
-
         exportPdf(callback: (data: ExportFromApiResult) => void, options?: ExportPdfFromApiOptions): void;
-
         exportZip(callback: (data: ExportFromApiResult) => void, options?: ExportZipFromApiOptions): void;
-
         setAppearance(appearance: AppearanceConfig): void;
-
         showPreview(device?: Device): void;
-
         hidePreview(): void;
-
         canUndo(callback: (result: boolean) => void): void;
-
         canRedo(callback: (result: boolean) => void): void;
-
         undo(): void;
-
         redo(): void;
     }
 }
