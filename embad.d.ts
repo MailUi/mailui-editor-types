@@ -103,7 +103,7 @@ declare module "engine/config/intl" {
     export function isRTL(locale: Locale): boolean;
 }
 declare module "editor/components/editors/types" {
-    import {AppearanceConfig, Device, DisplayMode, Location, Variant} from 'state/types/index';
+    import {AppearanceConfig, Device, DisplayMode, Variant} from 'state/types/index';
     export type LoadingState = 'not-loaded' | 'loading' | 'loaded';
     export type UpdatingState = 'updating' | undefined;
     export type DeletionState = 'deleting' | 'failed' | undefined;
