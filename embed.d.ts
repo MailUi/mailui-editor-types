@@ -1,5 +1,4 @@
 /// <reference types="react" />
-/// <reference types="lodash" />
 
 declare module "engine/config/offline" {
     export function enableOffline(): void;
@@ -557,11 +556,11 @@ declare module "editor/hooks/useTranslate" {
     // export function withConfig<C extends React.ComponentType>(Component: C): React.MemoExoticComponent<React.ForwardRefExoticComponent<object & Record<"config", any> & React.RefAttributes<unknown>>>;
 }
 
-declare module "editor/hooks/withTranslate" {
-    import React from 'react';
-
-    export function withConfig<C extends React.ComponentType>(Component: C): React.MemoExoticComponent<React.ForwardRefExoticComponent<object & Record<"translate", any> & React.RefAttributes<unknown>>>;
-}
+// declare module "editor/hooks/withTranslate" {
+//     import React from 'react';
+//
+//     export function withConfig<C extends React.ComponentType>(Component: C): React.MemoExoticComponent<React.ForwardRefExoticComponent<object & Record<"translate", any> & React.RefAttributes<unknown>>>;
+// }
 
 
 declare module "embed/Editor" {
