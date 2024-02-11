@@ -499,9 +499,7 @@ declare module "embed/Frame" {
     export const disableOriginalFunctionReferences: () => void;
     global {
         interface Window {
-            __mailui_lastFrameId: number;
-            __mailui_multipleEditors: boolean;
-            __mailui_originalFunctionReferences: boolean;
+            __mailui_newEditorId: number;
         }
     }
 }
