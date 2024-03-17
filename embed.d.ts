@@ -329,6 +329,8 @@ declare module "embed/Config" {
     } from "state/types/index";
 
     export interface Config {
+        apiKey: string;
+        secret: string;
         id?: string;
         className?: string;
         version?: string;
