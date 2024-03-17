@@ -330,7 +330,7 @@ declare module "embed/Config" {
 
     export interface Config {
         apiKey: string;
-        secret: string;
+        apiSecret: string;
         id?: string;
         className?: string;
         version?: string;
