@@ -352,7 +352,7 @@ declare module "embed/Config" {
         templateId?: number;
         stockTemplateId?: string;
         loadTimeout?: number;
-        options?: object;
+        options: object;
         tools?: ToolsConfig;
         excludeTools?: string[];
         editor?: object;
