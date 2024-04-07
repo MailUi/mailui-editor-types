@@ -329,8 +329,8 @@ declare module "embed/Config" {
     } from "state/types/index";
 
     export interface Config {
-        apiKey: string;
-        apiSecret: string;
+        apiKey?: string;
+        apiSecret?: string;
         id?: string;
         className?: string;
         version?: string;
@@ -352,7 +352,6 @@ declare module "embed/Config" {
         templateId?: number;
         stockTemplateId?: string;
         loadTimeout?: number;
-        options: object;
         tools?: ToolsConfig;
         excludeTools?: string[];
         editor?: object;
