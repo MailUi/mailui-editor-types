@@ -410,7 +410,7 @@ declare module "embed/Config" {
 
     export interface ExportPlainTextResult {
         text: string;
-        design: JSONTemplate;
+        json: JSONTemplate;
     }
 
     export interface HtmlToPlainTextOptions {
