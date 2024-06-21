@@ -160,13 +160,13 @@ declare module "state/types/index" {
         innerWrapper?: object;
     }
 
-    export type ElementList = Element[] | [];
+    export type ElementList = Element[];
 
     export interface PageData {
         style?: any[];
         heading?: any[];
         settings?: object;
-        elements?: ElementList;
+        elements?: ElementList | [];
     }
 
     export interface Page {
