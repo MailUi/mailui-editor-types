@@ -160,7 +160,7 @@ declare module "state/types/index" {
         innerWrapper?: object;
     }
 
-    export type ElementList = Element[];
+    export type ElementList = Element[] | [];
 
     export interface PageData {
         style?: any[];
@@ -271,6 +271,7 @@ declare module "embed/Config" {
     export interface SaveDesignResult {
         version: string;
         json: JSONTemplate;
+        html: string;
     }
 
     export interface FetchInitialDesignResult {
