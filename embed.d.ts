@@ -318,8 +318,7 @@ declare module "embed/Config" {
     }
 
     export interface ExportFromApiResult {
-        design: JSONTemplate;
-        url: string | null;
+        json: JSONTemplate;
         error?: string;
     }
 
@@ -344,6 +343,7 @@ declare module "embed/Config" {
 
     export interface ExportPdfFromApiOptions extends BaseExportFromApiOptions {}
     export interface ExportZipFromApiOptions extends BaseExportFromApiOptions {}
+    export interface ExportEspsFromApiOptions extends BaseExportFromApiOptions {}
 }
 
 declare module "embed/Frame" {
@@ -415,7 +415,8 @@ declare module "embed/Editor" {
         ExportPlainTextResult,
         ExportZipFromApiOptions,
         SaveDesignOptions,
-        FetchInitialDesignOptions
+        FetchInitialDesignOptions,
+        ExportEspsFromApiOptions
     } from "embed/Config";
     import {
         AppearanceConfig,
@@ -465,6 +466,7 @@ declare module "embed/Editor" {
         exportImage(callback: (data: ExportFromApiResult) => void, options?: ExportImageFromApiOptions): void;
         exportPdf(callback: (data: ExportFromApiResult) => void, options?: ExportPdfFromApiOptions): void;
         exportZip(callback: (data: ExportFromApiResult) => void, options?: ExportZipFromApiOptions): void;
+        exportEsps(callback: (data: ExportFromApiResult) => void, options?: ExportEspsFromApiOptions): void;
         setAppearance(appearance: AppearanceConfig): void;
         showPreview(): void;
         hidePreview(): void;
