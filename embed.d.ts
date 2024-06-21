@@ -201,12 +201,17 @@ declare module "state/types/index" {
         };
     };
 
+    export interface ToolBadge {
+        label: string;
+        variant?: 'warning' | 'info' | 'danger' | 'dark' | string;
+    }
+
     export interface ToolConfig {
         enabled?: boolean | undefined;
         icon?: ReactNode | undefined;
         label?: string | undefined;
         position?: number | undefined;
-        // properties?: object | undefined;
+        badges?: ToolBadge[]
     }
 
     export interface ToolsConfig {
