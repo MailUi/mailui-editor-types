@@ -1,10 +1,5 @@
 /// <reference types="react" />
 
-declare module "engine/config/offline" {
-    export function enableOffline(): void;
-
-    export function isOffline(): boolean;
-}
 declare module "engine/config/callbacks" {
     export type CallbackDoneFn = (result: any) => Promise<void> | void;
     export type CallbackFn = (data?: any, done?: CallbackDoneFn) => Promise<void> | void;
@@ -97,71 +92,13 @@ declare module "engine/config/intl" {
 
     export function isRTL(locale: Locale): boolean;
 }
-declare module "editor/components/editors/types" {
-    import {AppearanceConfig, Device, DisplayMode, Variant} from 'state/types/index';
-    export type LoadingState = 'not-loaded' | 'loading' | 'loaded';
-    export type UpdatingState = 'updating' | undefined;
-    export type DeletionState = 'deleting' | 'failed' | undefined;
 
-    export interface EditorProps<Value> {
-        value: Value | undefined;
-        defaultValue: Value | undefined;
-        updateValue: (newValue: Value | undefined, data?: object, options?: {
-            deviceOverride?: Device;
-            skipFromUndoRedo?: boolean;
-        }) => void;
-        name: string;
-        data?: object;
-        displayMode: DisplayMode;
-        label?: string;
-        location: Location;
-        values: {
-            [key: string]: unknown;
-            containerPadding?: string;
-        };
-        rootValues: {
-            [key: string]: any;
-            _override?: {
-                [key: string]: any;
-            };
-        };
-        appearance: AppearanceConfig;
-        entitlements: {
-            audit?: boolean;
-            branding?: boolean;
-            customFonts?: boolean;
-            userUploads?: boolean;
-            stockImages?: boolean;
-        };
-        item: object;
-        project: object;
-        onImageClick?: (url: string) => void;
-    }
-
-    export type HeadArguments = [
-        Record<string, any>,
-        Record<string, any>,
-        {
-            displayMode: DisplayMode;
-            embeddedValues: Record<string, any>;
-            isViewer: boolean;
-            variant: Variant;
-            type?: string;
-        }
-    ];
-
-    export type DeepPartial<T> = T extends object ? {
-        [P in keyof T]?: DeepPartial<T[P]>;
-    } : T;
-}
 declare module "state/types/index" {
     import {ReactNode} from 'react';
-    export type DesignMode = 'live' | 'edit';
     export type DisplayMode = 'email' | 'web';
-    export type Variant = 'amp' | null;
+    // export type Variant = 'amp' | null;
     export type Device = 'desktop' | 'mobile' | 'tablet';
     export type Theme = 'light' | 'dark';
-    export type Ui = 'none' | 'visual' | 'classic';
     export type RootElementTypes = 'SECTION' | 'ROW' | 'COLUMN' | 'ELEMENT' | string;
     export type ElementTypes =
         'section'
@@ -177,48 +114,37 @@ declare module "state/types/index" {
         | 'divider'
         | 'space'
         | 'icons'
+        | 'card'
+        | 'countdown'
         | string;
 
     export interface MergeTag {
         label: string;
         value?: string;
-        margeTags?: MergeTags
+        margeTags?: MergeTags[]
     }
 
-    export type MergeTags = MergeTag[]
+    export interface MergeTags {
+        [name: string]: MergeTag;
+    }
 
     export type MergeTagsValues = Record<string, string | number | Record<string, boolean | Array<Record<string, string | number>>>>;
 
-    export interface CustomFont {
-        label: string;
-        value: string;
-        url: string;
-        weights?: number[];
+    export type SpecialLink = {
+        name: string;
+        href: string;
+        target?: string;
+        specialLinks?: SpecialLinks[];
+    };
+    export interface SpecialLinks {
+        [name: string]: SpecialLink;
     }
 
-    export interface CustomFonts {
-        [label: string]: CustomFont;
-    }
-
-    export type DesignTag = string;
+    export type SpecialLinksValues = Record<string, string | number | Record<string, boolean | Array<Record<string, string | number>>>>;
 
     export interface Translations {
         [name: string]: object;
     }
-
-    export type ImageSource = 'unsplash' | 'pixabay' | 'pexel' | 'user';
-
-    export interface Image {
-        id: number;
-        location: string;
-        contentType: string;
-        size: number;
-        width: number | null;
-        height: number | null;
-        source: ImageSource | null;
-        optimistic?: boolean;
-    }
-
 
     export interface Element {
         id: string;
@@ -261,23 +187,6 @@ declare module "state/types/index" {
         schemaVersion?: string
     };
 
-    export type ArrayItem<T> = T extends (infer I)[] ? I : T extends readonly (infer I)[] ? I : unknown;
-    export type Fonts = {
-        showDefaultFonts?: boolean;
-        customFonts?: CustomFont[];
-    };
-    export type SocialIcon = {
-        name: string;
-        url: string;
-        imgUrl?: string;
-    };
-    export type SocialCustomIcon = {
-        name: string;
-        url: string;
-        icons: {
-            [key: string]: string;
-        }[];
-    };
     export type AppearanceConfig = {
         theme?: Theme;
         panels?: {
@@ -303,29 +212,20 @@ declare module "state/types/index" {
     export interface ToolsConfig {
         [key: string]: ToolConfig;
     }
-
-    export type User = {
-        id?: string | number;
-        name?: string | null | undefined;
-        avatar?: string | null | undefined;
-        email?: string;
-        signature?: string;
-    };
 }
+
 declare module "embed/Config" {
-    import {ValidationResult} from 'amphtml-validator';
-    import {FontList} from "engine/config/fonts";
     import {TextDirection} from "engine/config/intl";
     import {
         AppearanceConfig,
         Device,
         DisplayMode,
-        Fonts,
         JSONTemplate,
         MergeTags,
+        SpecialLinks,
         MergeTagsValues,
+        SpecialLinksValues,
         ToolsConfig,
-        User
     } from "state/types/index";
 
     export interface Config {
@@ -333,30 +233,18 @@ declare module "embed/Config" {
         apiSecret?: string;
         id?: string;
         className?: string;
-        version?: string;
-        source?: {
-            name: string;
-            version: string;
-        };
-        offline?: boolean;
-        render?: boolean;
-        amp?: boolean;
         defaultDevice?: Device;
         devices?: Device[];
-        // designId?: string;
-        // designMode?: string;
         displayMode?: DisplayMode;
-        env?: Record<'API_V1_BASE_URL' | 'API_V2_BASE_URL' | 'EVENTS_API_BASE_URL' | 'TOOLS_API_V1_BASE_URL' | 'TOOLS_CDN_BASE_URL', string | undefined>;
-        projectId?: number | null;
-        user?: User;
         templateId?: number;
         stockTemplateId?: string;
         loadTimeout?: number;
         tools?: ToolsConfig;
         excludeTools?: string[];
+        protectedModules?: string[];
         editor?: object;
-        fonts?: Fonts;
         mergeTags?: MergeTags;
+        specialLinks?: SpecialLinks;
         locale?: string;
         textDirection?: TextDirection;
         translations?: object;
@@ -364,18 +252,16 @@ declare module "embed/Config" {
         features?: object;
     }
 
-    export interface SaveDesignOptions {
-    }
+    export interface SaveDesignOptions {}
 
     export interface ExportHtmlOptions {
         amp?: boolean;
         cleanup?: boolean;
         textDirection?: TextDirection;
         isPreview?: boolean;
-        live?: boolean;
         mergeTags?: MergeTagsValues;
+        specialLinks?: SpecialLinksValues;
         minify?: boolean;
-        popupId?: string;
         title?: string;
         validateAmp?: boolean;
         onlyHeader?: boolean;
@@ -383,46 +269,44 @@ declare module "embed/Config" {
     }
 
     export interface SaveDesignResult {
+        version: string;
+        json: JSONTemplate;
+    }
 
+    export interface FetchInitialDesignResult {
+        version: string;
+        json: JSONTemplate;
+    }
+
+    export interface ExportJsonResult {
+        json: JSONTemplate;
     }
 
     export interface ExportHtmlResult {
         html: string;
-        amp: {
-            enabled: boolean;
-            format: 'AMP' | 'AMP4EMAIL';
-            html: string | undefined;
-            validation: ValidationResult;
-        };
+        // amp: {
+        //     enabled: boolean;
+        //     format: 'AMP' | 'AMP4EMAIL';
+        //     html: string | undefined;
+        //     validation: ValidationResult;
+        // };
         chunks: ExportChunksResult;
         design: JSONTemplate;
     }
 
-    export interface ExportLiveHtmlOptions extends Omit<ExportHtmlOptions, 'live'> {
-    }
-
-    export interface ExportLiveHtmlResult extends ExportHtmlResult {
-    }
-
-    export interface ExportPlainTextOptions extends Omit<ExportHtmlOptions, 'cleanup' | 'minify'> {
-        ignorePreheader?: boolean;
-    }
+    // export interface ExportPlainTextOptions extends Omit<ExportHtmlOptions, 'cleanup' | 'minify'> {
+    //     ignorePreheader?: boolean;
+    // }
 
     export interface ExportPlainTextResult {
         text: string;
         json: JSONTemplate;
     }
 
-    export interface HtmlToPlainTextOptions {
-        ignoreLinks?: boolean;
-        ignoreImages?: boolean;
-    }
-
     export interface ExportChunksResult {
         css: string;
         js: string;
         tags: string[];
-        fonts: FontList;
         body: any;
     }
 
@@ -443,6 +327,14 @@ declare module "embed/Config" {
         mergeTags?: Record<string, string>;
     }
 
+    export interface FetchInitialDesignOptions {
+
+    }
+
+    export interface ExportJsonOptions {
+
+    }
+
     export interface ExportImageFromApiOptions extends BaseExportFromApiOptions {
         width?: number;
         height?: number;
@@ -453,12 +345,7 @@ declare module "embed/Config" {
     export interface ExportPdfFromApiOptions extends BaseExportFromApiOptions {}
     export interface ExportZipFromApiOptions extends BaseExportFromApiOptions {}
 }
-declare module "engine/utils/findDeep" {
-    export function findDeep<T = any>(item: Record<string, T> | Array<T> | T, eq: ((item: T) => boolean) | unknown, {_path, _visited}?: {
-        _path?: string[];
-        _visited?: WeakMap<object, any>;
-    }): string[][];
-}
+
 declare module "embed/Frame" {
     export type Message = object;
 
@@ -504,63 +391,38 @@ declare module "embed/Frame" {
         }
     }
 }
-declare module "engine/config/env" {
-    export const env: {
-        API_V1_BASE_URL: string;
-        API_V2_BASE_URL: string;
-        EVENTS_API_BASE_URL: string;
-        TOOLS_API_V1_BASE_URL: string;
-        TOOLS_CDN_BASE_URL: string;
-    };
-
-    export function setIsTest(isTest: boolean): void;
-    export function isTest(): boolean;
-
-    global {
-        interface Window {
-            Cypress?: unknown;
-        }
-    }
-}
 
 declare module "editor/hooks/useTranslate" {
 
     export function useBrowserUtils(): any;
 
-    // export function withConfig<C extends React.ComponentType>(Component: C): React.MemoExoticComponent<React.ForwardRefExoticComponent<object & Record<"config", any> & React.RefAttributes<unknown>>>;
 }
-
-// declare module "editor/hooks/withTranslate" {
-//     import React from 'react';
-//
-//     export function withConfig<C extends React.ComponentType>(Component: C): React.MemoExoticComponent<React.ForwardRefExoticComponent<object & Record<"translate", any> & React.RefAttributes<unknown>>>;
-// }
-
 
 declare module "embed/Editor" {
     import {Frame} from "embed/Frame";
     import {
         Config,
+        SaveDesignResult,
         ExportFromApiResult,
         ExportHtmlOptions,
+        ExportJsonResult,
         ExportHtmlResult,
+        ExportJsonOptions,
+        FetchInitialDesignResult,
         ExportImageFromApiOptions,
-        ExportLiveHtmlOptions,
-        ExportLiveHtmlResult,
         ExportPdfFromApiOptions,
         ExportPlainTextOptions,
         ExportPlainTextResult,
         ExportZipFromApiOptions,
-        SaveDesignOptions
+        SaveDesignOptions,
+        FetchInitialDesignOptions
     } from "embed/Config";
     import {
         AppearanceConfig,
-        Device,
         DisplayMode,
         JSONTemplate,
         MergeTags,
         Translations,
-        User
     } from "state/types/index";
     import {Locale, TextDirection} from "engine/config/intl";
     export const LATEST_VERSION: string;
@@ -586,8 +448,6 @@ declare module "embed/Editor" {
         addEventListener(type: string, callback: Function): void;
         removeEventListener(type: string): void;
         setDisplayMode(displayMode: DisplayMode): void;
-        loadProject(projectId: number): void;
-        loadUser(user: User): void;
         loadTemplate(templateId: number): void;
         loadStockTemplate(stockTemplateId: string): void;
         setMergeTags(mergeTags: MergeTags): void;
@@ -598,14 +458,15 @@ declare module "embed/Editor" {
         loadBlank(bodyValues?: object): void;
         loadDesign(design: JSONTemplate): void;
         saveDesign(callback: (data: SaveDesignResult) => void, options?: SaveDesignOptions): void;
+        fetchInitialDesign(callback: (data: FetchInitialDesignResult) => void, options?: FetchInitialDesignOptions): void;
+        exportJson(callback: (data: ExportJsonResult) => void, options?: ExportJsonOptions): void;
         exportHtml(callback: (data: ExportHtmlResult) => void, options?: ExportHtmlOptions): void;
-        exportLiveHtml(callback: (data: ExportLiveHtmlResult) => void, options?: ExportLiveHtmlOptions): void;
         exportPlainText(callback: (data: ExportPlainTextResult) => void, options?: ExportPlainTextOptions): void;
         exportImage(callback: (data: ExportFromApiResult) => void, options?: ExportImageFromApiOptions): void;
         exportPdf(callback: (data: ExportFromApiResult) => void, options?: ExportPdfFromApiOptions): void;
         exportZip(callback: (data: ExportFromApiResult) => void, options?: ExportZipFromApiOptions): void;
         setAppearance(appearance: AppearanceConfig): void;
-        showPreview(device?: Device): void;
+        showPreview(): void;
         hidePreview(): void;
         canUndo(callback: (result: boolean) => void): void;
         canRedo(callback: (result: boolean) => void): void;
