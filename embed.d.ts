@@ -203,7 +203,7 @@ declare module "state/types/index" {
 
     export interface ToolBadge {
         label: string;
-        variant?: 'warning' | 'info' | 'danger' | 'dark' | string;
+        variant?: 'warning' | 'info' | 'danger' | 'success' | 'dark' | string;
     }
 
     export interface ToolConfig {
