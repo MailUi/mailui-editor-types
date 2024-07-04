@@ -254,6 +254,10 @@ declare module "embed/Config" {
         translations?: object;
         appearance?: AppearanceConfig;
         features?: object;
+        source?: {
+            name: string;
+            version: string;
+        };
     }
 
     export interface SaveDesignOptions {}
