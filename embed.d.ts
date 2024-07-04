@@ -236,7 +236,7 @@ declare module "embed/Config" {
     export interface Config {
         id?: string;
         signature?: string;
-        projectId?: number | null;
+        projectId?: string | number | null;
         className?: string;
         defaultDevice?: Device;
         devices?: Device[];
