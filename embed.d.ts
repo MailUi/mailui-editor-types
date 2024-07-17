@@ -142,6 +142,15 @@ declare module "state/types/index" {
 
     export type SpecialLinksValues = Record<string, string | number | Record<string, boolean | Array<Record<string, string | number>>>>;
 
+
+    export type DisplayCondition = {
+        label: string;
+        description?: string;
+        key: string;
+    }
+
+    export type DisplayConditions = DisplayCondition[];
+
     export interface Translations {
         [name: string]: object;
     }
@@ -429,12 +438,13 @@ declare module "embed/Editor" {
         ExportEspsFromApiOptions
     } from "embed/Config";
     import {
-        AppearanceConfig,
-        DisplayMode,
-        JSONTemplate,
-        MergeTags,
-        Translations,
-    } from "state/types/index";
+    AppearanceConfig,
+    DisplayConditions,
+    DisplayMode,
+    JSONTemplate,
+    MergeTags,
+    Translations,
+} from "state/types/index";
     import {Locale, TextDirection} from "engine/config/intl";
     export const LATEST_VERSION: string;
     export const STABLE_VERSION: string;
@@ -464,6 +474,7 @@ declare module "embed/Editor" {
         setMergeTags(mergeTags: MergeTags): void;
         setDevice(device: string): void;
         setLocale(locale: Locale | null): void;
+        setDisplayConditions(displayConditions: DisplayConditions | null): void;
         setTextDirection(textDirection: TextDirection | null): void;
         setTranslations(translations: Translations): void;
         loadBlank(bodyValues?: object): void;
