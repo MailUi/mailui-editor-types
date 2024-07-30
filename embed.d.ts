@@ -143,11 +143,25 @@ declare module "state/types/index" {
     export type SpecialLinksValues = Record<string, string | number | Record<string, boolean | Array<Record<string, string | number>>>>;
 
 
-    export type DisplayCondition = {
+    type BaseDisplayCondition = {
         label: string;
         description?: string;
+    };
+
+    type KeyDisplayCondition = {
         key: string;
-    }
+        before: null;
+        after: null;
+    };
+
+    type BeforeAndAfterDisplayCondition = {
+        key: null;
+        before: string;
+        after: string;
+    };
+
+    type DisplayCondition = BaseDisplayCondition & (KeyDisplayCondition | BeforeAndAfterDisplayCondition);
+
 
     export type DisplayConditions = DisplayCondition[];
 
