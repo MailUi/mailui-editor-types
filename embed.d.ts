@@ -150,12 +150,9 @@ declare module "state/types/index" {
 
     type KeyDisplayCondition = {
         key: string;
-        before: null;
-        after: null;
     };
 
     type BeforeAndAfterDisplayCondition = {
-        key: null;
         before: string;
         after: string;
     };
