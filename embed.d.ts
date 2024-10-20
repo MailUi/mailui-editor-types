@@ -213,7 +213,8 @@ declare module "state/types/index" {
         schemaVersion?: string
     };
     export type AIGenerativeTemplate = {
-        name: string;
+        aiGenerative: boolean;
+        templateName: string;
         prompt: string;
     }
     export type UnlayerTemplate = {
