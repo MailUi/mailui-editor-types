@@ -1,5 +1,7 @@
 /// <reference types="react" />
 
+import {AITemplateGenerate} from "state/types/index";
+
 declare module "engine/config/callbacks" {
     export type CallbackDoneFn = (result: any) => Promise<void> | void;
     export type CallbackFn = (data?: any, done?: CallbackDoneFn) => Promise<void> | void;
@@ -202,6 +204,7 @@ declare module "state/types/index" {
 
     export type PageList = Page[];
 
+    export type BlankTemplate = {};
     export type JSONTemplate = {
         name: string
         siteId: string
@@ -209,6 +212,15 @@ declare module "state/types/index" {
         pages: PageList;
         schemaVersion?: string
     };
+    export type AIGenerativeTemplate = {
+        name: string;
+        prompt: string;
+    }
+    export type UnlayerTemplate = {
+        counters: object;
+        body: object;
+        [key: string]: any;
+    }
 
     export type AppearanceConfig = {
         theme?: Theme;
@@ -455,7 +467,10 @@ declare module "embed/Editor" {
     AppearanceConfig,
     DisplayConditions,
     DisplayMode,
+    BlankTemplate,
     JSONTemplate,
+    AIGenerativeTemplate,
+    UnlayerTemplate,
     MergeTags,
     Translations,
 } from "state/types/index";
@@ -492,7 +507,7 @@ declare module "embed/Editor" {
         setTextDirection(textDirection: TextDirection | null): void;
         setTranslations(translations: Translations): void;
         loadBlank(bodyValues?: object): void;
-        loadDesign(design: JSONTemplate): void;
+        loadDesign(design: BlankTemplate | JSONTemplate | AIGenerativeTemplate | UnlayerTemplate): void;
         saveDesign(callback: (data: SaveDesignResult) => void, options?: SaveDesignOptions): void;
         fetchInitialDesign(callback: (data: FetchInitialDesignResult) => void, options?: FetchInitialDesignOptions): void;
         exportJson(callback: (data: ExportJsonResult) => void, options?: ExportJsonOptions): void;
