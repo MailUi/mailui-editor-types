@@ -100,7 +100,10 @@ declare module "state/types/index" {
     export type DisplayMode = 'email' | 'web';
     // export type Variant = 'amp' | null;
     export type Device = 'desktop' | 'mobile' | 'tablet';
-    export type Theme = 'light' | 'dark';
+    export type ThemeMode = 'default' | 'dark';
+    export type ThemePalette = {
+        [key: string]: any;
+    };
     export type RootElementTypes = 'SECTION' | 'ROW' | 'COLUMN' | 'ELEMENT' | string;
     export type ElementTypes =
         'section'
@@ -224,7 +227,10 @@ declare module "state/types/index" {
     }
 
     export type AppearanceConfig = {
-        theme?: Theme;
+        theme?: {
+            mode?: ThemeMode;
+            palette?: ThemePalette;
+        };
         panels?: {
             tools?: {
                 dock?: 'left' | 'right'; // popup
