@@ -216,8 +216,8 @@ declare module "state/types/index" {
         schemaVersion?: string
     };
     export type AIGenerativeTemplate = {
-        aiGenerative: boolean;
-        templateName: string;
+        aiGenerative?: boolean;
+        // templateName: string;
         prompt: string;
     }
     export type UnlayerTemplate = {
@@ -515,6 +515,7 @@ declare module "embed/Editor" {
         setTranslations(translations: Translations): void;
         loadBlank(bodyValues?: object): void;
         loadDesign(design: BlankTemplate | JSONTemplate | AIGenerativeTemplate | UnlayerTemplate): void;
+        loadDesignWithAI(config: AIGenerativeTemplate): void;
         saveDesign(callback: (data: SaveDesignResult) => void, options?: SaveDesignOptions): void;
         fetchInitialDesign(callback: (data: FetchInitialDesignResult) => void, options?: FetchInitialDesignOptions): void;
         exportJson(callback: (data: ExportJsonResult) => void, options?: ExportJsonOptions): void;
