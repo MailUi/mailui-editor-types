@@ -235,7 +235,11 @@ declare module "state/types/index" {
             tools?: {
                 dock?: 'left' | 'right'; // popup
                 collapsible?: boolean;
-                compact?: boolean
+                compact?: boolean;
+                extras?: {
+                    keyboardShortcuts?: boolean, // show/hide shortcut button
+                    documentation?: boolean, // show/hide docs button
+                }
             };
         };
         features?: {
