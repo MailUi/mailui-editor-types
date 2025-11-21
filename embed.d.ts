@@ -1,6 +1,5 @@
 /// <reference types="react" />
 
-import {AITemplateGenerate} from "state/types/index";
 
 declare module "engine/config/callbacks" {
     export type CallbackDoneFn = (result: any) => Promise<void> | void;
