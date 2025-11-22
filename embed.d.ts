@@ -95,7 +95,7 @@ declare module "engine/config/intl" {
 }
 
 declare module "state/types/index" {
-    import {ReactNode} from 'react';
+    import { ReactNode } from 'react';
     export type DisplayMode = 'email' | 'web';
     // export type Variant = 'amp' | null;
     export type Device = 'desktop' | 'mobile' | 'tablet';
@@ -125,7 +125,7 @@ declare module "state/types/index" {
     export interface MergeTag {
         label: string;
         value?: string;
-        margeTags?: MergeTags[]
+        mergeTags?: MergeTags[]
     }
 
     export interface MergeTags {
@@ -265,7 +265,7 @@ declare module "state/types/index" {
 }
 
 declare module "embed/Config" {
-    import {TextDirection} from "engine/config/intl";
+    import { TextDirection } from "engine/config/intl";
     import {
         AppearanceConfig,
         Device,
@@ -306,7 +306,7 @@ declare module "embed/Config" {
         };
     }
 
-    export interface SaveDesignOptions {}
+    export interface SaveDesignOptions { }
 
     export interface ExportHtmlOptions {
         amp?: boolean;
@@ -396,9 +396,9 @@ declare module "embed/Config" {
         deviceScaleFactor?: number;
     }
 
-    export interface ExportPdfFromApiOptions extends BaseExportFromApiOptions {}
-    export interface ExportZipFromApiOptions extends BaseExportFromApiOptions {}
-    export interface ExportEspsFromApiOptions extends BaseExportFromApiOptions {}
+    export interface ExportPdfFromApiOptions extends BaseExportFromApiOptions { }
+    export interface ExportZipFromApiOptions extends BaseExportFromApiOptions { }
+    export interface ExportEspsFromApiOptions extends BaseExportFromApiOptions { }
 }
 
 declare module "embed/Frame" {
@@ -434,7 +434,7 @@ declare module "embed/Frame" {
         preprocessMessage(message: Message): Message;
         scheduleMessage(message: Message): void;
         flushMessages(): void;
-        handleMessage({action, callbackId, doneId, result: _result, resultArgs: _resultArgs,}: MessageData): void;
+        handleMessage({ action, callbackId, doneId, result: _result, resultArgs: _resultArgs, }: MessageData): void;
         receiveMessage(event: any): void;
     }
 
@@ -454,7 +454,7 @@ declare module "editor/hooks/useTranslate" {
 }
 
 declare module "embed/Editor" {
-    import {Frame} from "embed/Frame";
+    import { Frame } from "embed/Frame";
     import {
         Config,
         SaveDesignResult,
@@ -474,17 +474,17 @@ declare module "embed/Editor" {
         ExportEspsFromApiOptions
     } from "embed/Config";
     import {
-    AppearanceConfig,
-    DisplayConditions,
-    DisplayMode,
-    BlankTemplate,
-    JSONTemplate,
-    AIGenerativeTemplate,
-    UnlayerTemplate,
-    MergeTags,
-    Translations,
-} from "state/types/index";
-    import {Locale, TextDirection} from "engine/config/intl";
+        AppearanceConfig,
+        DisplayConditions,
+        DisplayMode,
+        BlankTemplate,
+        JSONTemplate,
+        AIGenerativeTemplate,
+        UnlayerTemplate,
+        MergeTags,
+        Translations,
+    } from "state/types/index";
+    import { Locale, TextDirection } from "engine/config/intl";
     export const LATEST_VERSION: string;
     export const STABLE_VERSION: string;
 
@@ -538,8 +538,8 @@ declare module "embed/Editor" {
     }
 }
 declare module "embed/index" {
-    import {Editor} from "embed/Editor";
-    import {Config} from "embed/Config";
+    import { Editor } from "embed/Editor";
+    import { Config } from "embed/Config";
 
     class Embed extends Editor {
         createEditor(config: Config): Editor;
